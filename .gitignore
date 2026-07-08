@@ -4,3 +4,9 @@ dist/
 .env.local
 .vscode/
 *.log
+# Local scratch and legacy backups
+scratch/
+legacy/
+*.xlsx
+*.db
+.DS_Store
