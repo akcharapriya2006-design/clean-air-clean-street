@@ -32,10 +32,33 @@
 <main class="wrap" style="padding-top:28px; padding-bottom:48px;">
   <div class="toolbar">
     <div>
-      <h1 style="font-size:24px;">🇮🇳 India Air Quality Map</h1>
+      <h1 style="font-size:24px;">🇮🇳 India Live AQI Map</h1>
       <div class="sub" id="last-updated">Synchronizing…</div>
     </div>
-    <span class="pill cyan" id="online-pill">● Connecting…</span>
+    <div class="toolbar-actions">
+      <button id="btn-center-india" class="btn btn-ghost btn-sm">Center India</button>
+      <button id="btn-locate-user" class="btn btn-primary btn-sm">Locate Me</button>
+      <span class="pill cyan" id="online-pill">● Connecting…</span>
+    </div>
+  </div>
+
+  <div class="stats-grid">
+    <div class="stat-card">
+      <span class="stat-label">India Average AQI</span>
+      <strong id="india-avg">—</strong>
+    </div>
+    <div class="stat-card">
+      <span class="stat-label">Worst City</span>
+      <strong id="worst-city">—</strong>
+    </div>
+    <div class="stat-card">
+      <span class="stat-label">Best City</span>
+      <strong id="best-city">—</strong>
+    </div>
+    <div class="stat-card">
+      <span class="stat-label">Live Source</span>
+      <strong id="live-source">—</strong>
+    </div>
   </div>
 
   <div class="dash-grid">

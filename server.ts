@@ -540,6 +540,7 @@ async function bootstrap() {
       server: { middlewareMode: true },
       appType: 'spa',
     });
+    app.use(express.static(process.cwd()));
     app.use(vite.middlewares);
   } else {
     console.log('Serving production static build from /dist...');

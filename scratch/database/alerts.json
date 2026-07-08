@@ -1,0 +1,35 @@
+[
+  {
+    "id": "AL1001",
+    "cellId": "DL",
+    "title": "Critical Smog Spike — New Delhi, Delhi",
+    "severity": "critical",
+    "peakAqi": 285,
+    "etaHours": 3,
+    "status": "open",
+    "createdAt": "2026-07-08T12:48:59.083Z",
+    "source": "Ground sensor + satellite AOD"
+  },
+  {
+    "id": "AL1002",
+    "cellId": "BR",
+    "title": "Severe Particulate Outbreak — Patna, Bihar",
+    "severity": "critical",
+    "peakAqi": 210,
+    "status": "open",
+    "etaHours": 5,
+    "createdAt": "2026-07-08T10:48:59.084Z",
+    "source": "Satellite thermal anomaly + citizen report"
+  },
+  {
+    "id": "AL1003",
+    "cellId": "UP-K",
+    "title": "Moderate Smoke Spike — Kanpur, Uttar Pradesh",
+    "severity": "warning",
+    "peakAqi": 180,
+    "status": "acknowledged",
+    "etaHours": 8,
+    "createdAt": "2026-07-08T13:48:59.084Z",
+    "source": "Citizen report mesh"
+  }
+]

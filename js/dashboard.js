@@ -13,6 +13,12 @@ document.addEventListener('DOMContentLoaded', async () => {
   const sensorList = document.getElementById('sensor-list');
   const onlinePill = document.getElementById('online-pill');
   const lastUpdated = document.getElementById('last-updated');
+  const indiaAvg = document.getElementById('india-avg');
+  const worstCity = document.getElementById('worst-city');
+  const bestCity = document.getElementById('best-city');
+  const liveSource = document.getElementById('live-source');
+  const btnCenterIndia = document.getElementById('btn-center-india');
+  const btnLocateUser = document.getElementById('btn-locate-user');
 
   const opacitySlider = document.getElementById('overlay-opacity');
 
@@ -105,6 +111,8 @@ document.addEventListener('DOMContentLoaded', async () => {
       document.querySelectorAll('.aqi-marker-box.selected').forEach(el => el.classList.remove('selected'));
       marker.getElement()?.querySelector('.aqi-marker-box')?.classList.add('selected');
     }
+
+    updateTopStats();
   }
 
   // 2. RENDER MAP & INTEGRATE SELECT
@@ -199,6 +207,52 @@ document.addEventListener('DOMContentLoaded', async () => {
     });
   }
 
+  function updateTopStats() {
+    const details = AeroData.CELLS.map(cell => ({
+      cell,
+      detail: AeroData.getDetailedReading(cell)
+    }));
+
+    const average = Math.round(details.reduce((sum, item) => sum + item.detail.aqi, 0) / details.length);
+    const sorted = [...details].sort((a,b) => a.detail.aqi - b.detail.aqi);
+    indiaAvg.textContent = `${average}`;
+    worstCity.textContent = `${sorted[sorted.length - 1].cell.name} · ${sorted[sorted.length - 1].detail.aqi}`;
+    bestCity.textContent = `${sorted[0].cell.name} · ${sorted[0].detail.aqi}`;
+  }
+
+  function centerIndia() {
+    if (window.AeroMap) {
+      window.AeroMap.map.setView([AeroData.CITY_CENTER.lat, AeroData.CITY_CENTER.lng], 5, { animate: true });
+    }
+  }
+
+  function locateUser() {
+    if (!navigator.geolocation) {
+      showToast('Geolocation is not supported by your browser.');
+      return;
+    }
+
+    navigator.geolocation.getCurrentPosition((position) => {
+      if (window.AeroMap) {
+        const lat = position.coords.latitude;
+        const lng = position.coords.longitude;
+        window.AeroMap.map.setView([lat, lng], 7, { animate: true });
+
+        const marker = L.circleMarker([lat, lng], {
+          radius: 9,
+          color: '#38bdf8',
+          fillColor: '#0ea5e9',
+          fillOpacity: 0.7,
+          weight: 2,
+        }).addTo(window.AeroMap.map);
+
+        marker.bindPopup('<strong>Your location</strong><br>Centered on your area.').openPopup();
+      }
+    }, () => {
+      showToast('Could not determine your location. Please allow geolocation access.');
+    }, { enableHighAccuracy: true, timeout: 10000 });
+  }
+
   // Wire search and filter actions
   searchInput.addEventListener('input', populateList);
   stateFilter.addEventListener('change', populateList);
@@ -207,11 +261,20 @@ document.addEventListener('DOMContentLoaded', async () => {
   populateList();
   populateSensorGrid();
 
-  // Load the worst station initially on load
+  // Render summary stats and default selection
+  updateTopStats();
   const worst = AeroData.CELLS
     .map(c => ({ c, aqi: AeroData.currentReading(c) }))
     .sort((a,b) => b.aqi - a.aqi)[0];
   selectCell(worst.c.id);
+
+  // Control buttons
+  if (btnCenterIndia) {
+    btnCenterIndia.addEventListener('click', centerIndia);
+  }
+  if (btnLocateUser) {
+    btnLocateUser.addEventListener('click', locateUser);
+  }
 
   // Settings Opacity control
   if (opacitySlider) {
