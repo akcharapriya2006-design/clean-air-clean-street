@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Ops Console — PureZone India</title>
+<link rel="stylesheet" href="css/style.css">
+<link rel="stylesheet" href="css/pages.css">
+</head>
+<body>
+
+<header class="site">
+  <nav class="wrap nav">
+    <a href="index.html" class="brand">
+      <div class="brand-icon">🌀</div>
+      PureZone
+    </a>
+    <ul class="navlinks">
+      <li><a href="index.html">Overview</a></li>
+      <li><a href="dashboard.html">Live Map</a></li>
+      <li><a href="report.html">Report</a></li>
+      <li><a href="ops.html">Ops Console</a></li>
+    </ul>
+    <div class="nav-actions">
+      <a href="dashboard.html" class="btn btn-primary btn-sm">Open Live Map →</a>
+      <button class="navtoggle" aria-label="Toggle menu">☰</button>
+    </div>
+  </nav>
+</header>
+
+<main class="wrap" style="padding-top:36px; padding-bottom:80px;">
+  <div class="toolbar">
+    <div>
+      <div class="eyebrow">Operations</div>
+      <h1 style="font-size:24px;">Dispatch Queue</h1>
+    </div>
+    <div class="sub" id="ops-updated"></div>
+  </div>
+
+  <div class="ops-stats">
+    <div class="card stat-card"><b id="stat-open" style="color:var(--red)">–</b><span>Open Alerts</span></div>
+    <div class="card stat-card"><b id="stat-critical" style="color:var(--purple)">–</b><span>Critical</span></div>
+    <div class="card stat-card"><b id="stat-dispatched" style="color:var(--orange)">–</b><span>Dispatched</span></div>
+    <div class="card stat-card"><b id="stat-resolved" style="color:var(--green)">–</b><span>Resolved</span></div>
+  </div>
+
+  <div class="dash-layout">
+    <div class="card">
+      <div class="panel-title">
+        <h3>Alert Queue</h3>
+        <div class="legend">
+          <div class="lg-item"><span class="sw" style="background:var(--red)"></span> Critical</div>
+          <div class="lg-item"><span class="sw" style="background:var(--orange)"></span> Warning</div>
+          <div class="lg-item"><span class="sw" style="background:var(--green)"></span> Resolved</div>
+        </div>
+      </div>
+      <div id="alert-feed"></div>
+    </div>
+
+    <div style="display:flex; flex-direction:column; gap:16px;">
+      <div class="card">
+        <div class="panel-title"><h3>Resources</h3></div>
+        <div id="resource-roster"></div>
+      </div>
+      <div class="card">
+        <div class="panel-title"><h3>Citizen Reports</h3></div>
+        <div id="ops-reports"><p class="text-faint" style="font-size:13px;">None yet.</p></div>
+      </div>
+    </div>
+  </div>
+</main>
+
+<footer class="site">
+  <div class="wrap">
+    <span>PureZone India — real-time air quality intelligence.</span>
+    <span class="mono text-faint">v3.0</span>
+  </div>
+</footer>
+
+<script src="js/data.js"></script>
+<script src="js/nav.js"></script>
+<script src="js/ops.js"></script>
+</body>
+</html>

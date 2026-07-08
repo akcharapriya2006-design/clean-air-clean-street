@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Live Map — PureZone India</title>
+<link rel="stylesheet" href="css/style.css">
+<link rel="stylesheet" href="css/pages.css">
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin="">
+</head>
+<body>
+
+<header class="site">
+  <nav class="wrap nav">
+    <a href="index.html" class="brand">
+      <div class="brand-icon">🌀</div>
+      PureZone
+    </a>
+    <ul class="navlinks">
+      <li><a href="index.html">Overview</a></li>
+      <li><a href="dashboard.html">Live Map</a></li>
+      <li><a href="report.html">Report</a></li>
+      <li><a href="ops.html">Ops Console</a></li>
+    </ul>
+    <div class="nav-actions">
+      <a href="report.html" class="btn btn-primary btn-sm">Report Pollution</a>
+      <button class="navtoggle" aria-label="Toggle menu">☰</button>
+    </div>
+  </nav>
+</header>
+
+<main class="wrap" style="padding-top:28px; padding-bottom:48px;">
+  <div class="toolbar">
+    <div>
+      <h1 style="font-size:24px;">🇮🇳 India Air Quality Map</h1>
+      <div class="sub" id="last-updated">Synchronizing…</div>
+    </div>
+    <span class="pill cyan" id="online-pill">● Connecting…</span>
+  </div>
+
+  <div class="dash-grid">
+    <!-- ═══ LEFT: Search & Rankings ═══ -->
+    <div class="dash-left" style="display:flex; flex-direction:column; gap:16px;">
+      <div class="card">
+        <div class="panel-title"><h3>Search</h3></div>
+        <div class="search-wrap">
+          <svg class="search-icon" viewBox="0 0 24 24" fill="none"><circle cx="11" cy="11" r="7" stroke="currentColor" stroke-width="2"/><path d="M21 21l-4.35-4.35" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+          <input type="text" id="search-city" placeholder="City or state…">
+        </div>
+        <select id="filter-state" style="font-size:12.5px; padding:9px 12px;">
+          <option value="">All States</option>
+        </select>
+      </div>
+
+      <div class="card" style="flex:1;">
+        <div class="panel-title"><h3>Rankings</h3></div>
+        <div class="ranking-scroll" id="city-ranking"></div>
+      </div>
+    </div>
+
+    <!-- ═══ CENTER: Map + Settings ═══ -->
+    <div class="dash-center" style="display:flex; flex-direction:column; gap:16px;">
+      <div class="card" style="padding:12px;">
+        <div id="hexmap"></div>
+      </div>
+      <div class="card" style="padding:12px 16px;">
+        <div class="settings-panel" style="display:flex; align-items:center; gap:14px;">
+          <label style="margin:0; white-space:nowrap;">Overlay Opacity</label>
+          <input type="range" id="overlay-opacity" min="0" max="100" value="65" style="flex:1;">
+        </div>
+      </div>
+    </div>
+
+    <!-- ═══ RIGHT: Detail + Forecast ═══ -->
+    <div class="dash-right" style="display:flex; flex-direction:column; gap:16px;">
+      <div class="card">
+        <div class="panel-title"><h3>Selected Location</h3></div>
+        <div id="detail-gauge"></div>
+        <div style="margin-top:16px; display:grid; grid-template-columns:1fr 1fr; gap:10px;" id="pollutant-details">
+          <div style="background:rgba(255,255,255,0.02); padding:12px; border-radius:var(--radius-sm); border:1px solid var(--border); text-align:center;">
+            <span style="font-size:10px; color:var(--text-faint); display:block; font-family:var(--f-mono); font-weight:700; text-transform:uppercase;">PM2.5</span>
+            <b id="val-pm25" style="font-size:22px; font-family:var(--f-mono);">—</b>
+            <span style="font-size:10px; color:var(--text-faint); display:block;">µg/m³</span>
+          </div>
+          <div style="background:rgba(255,255,255,0.02); padding:12px; border-radius:var(--radius-sm); border:1px solid var(--border); text-align:center;">
+            <span style="font-size:10px; color:var(--text-faint); display:block; font-family:var(--f-mono); font-weight:700; text-transform:uppercase;">PM10</span>
+            <b id="val-pm10" style="font-size:22px; font-family:var(--f-mono);">—</b>
+            <span style="font-size:10px; color:var(--text-faint); display:block;">µg/m³</span>
+          </div>
+        </div>
+        <div style="margin-top:10px; text-align:center; font-size:11px; font-family:var(--f-mono); color:var(--text-faint);" id="data-source-label">Source: —</div>
+      </div>
+
+      <div class="card">
+        <div class="panel-title"><h3 id="chart-title">24h Forecast</h3></div>
+        <div id="forecast-chart"></div>
+      </div>
+
+      <div class="card" id="recommendation-panel">
+        <div class="panel-title"><h3>Health Advisory</h3></div>
+        <p id="rec-text" style="font-size:13px; margin:0; line-height:1.6;">Select a city to view advisory.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- Ground sensor grid -->
+  <div style="margin-top:24px;">
+    <div class="card">
+      <div class="panel-title">
+        <h3>Ground Monitoring Stations</h3>
+        <a href="ops.html" class="btn btn-ghost btn-sm">Ops Console →</a>
+      </div>
+      <div id="sensor-list" style="display:grid; grid-template-columns:repeat(auto-fill, minmax(260px, 1fr)); gap:12px;"></div>
+    </div>
+  </div>
+</main>
+
+<footer class="site">
+  <div class="wrap">
+    <span>PureZone India — real-time air quality intelligence. Open-Meteo + WAQI.</span>
+    <span class="mono text-faint">v3.0</span>
+  </div>
+</footer>
+
+<script src="js/data.js"></script>
+<script src="js/gauge.js"></script>
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
+<script src="js/leafletmap.js"></script>
+<script src="js/charts.js"></script>
+<script src="js/nav.js"></script>
+<script src="js/dashboard.js"></script>
+</body>
+</html>

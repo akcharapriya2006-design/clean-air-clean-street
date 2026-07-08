@@ -1,0 +1,8 @@
+{
+  "name": "Remix: AeroWatch India Air Quality Monitor",
+  "description": "Hyperlocal air-quality monitoring system featuring citizen reports, ground sensors, a predictive dashboard with highly interactive speedometer gauges, and a database storing municipality staff, social workers, and general people users.",
+  "requestFramePermissions": [],
+  "majorCapabilities": [
+    "MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"
+  ]
+}

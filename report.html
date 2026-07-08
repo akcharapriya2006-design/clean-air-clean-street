@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Report Pollution — PureZone India</title>
+<link rel="stylesheet" href="css/style.css">
+<link rel="stylesheet" href="css/pages.css">
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin="">
+</head>
+<body>
+
+<header class="site">
+  <nav class="wrap nav">
+    <a href="index.html" class="brand">
+      <div class="brand-icon">🌀</div>
+      PureZone
+    </a>
+    <ul class="navlinks">
+      <li><a href="index.html">Overview</a></li>
+      <li><a href="dashboard.html">Live Map</a></li>
+      <li><a href="report.html">Report</a></li>
+      <li><a href="ops.html">Ops Console</a></li>
+    </ul>
+    <div class="nav-actions">
+      <a href="dashboard.html" class="btn btn-primary btn-sm">Open Live Map →</a>
+      <button class="navtoggle" aria-label="Toggle menu">☰</button>
+    </div>
+  </nav>
+</header>
+
+<main class="wrap" style="padding-top:36px; padding-bottom:80px;">
+  <div class="eyebrow">Citizen Report</div>
+  <h1 style="max-width:20ch; font-size: clamp(28px, 4vw, 44px);">Put pollution on the map.</h1>
+  <p style="max-width:60ch; font-size:15px;">Spotted smoke, dust, or open burning? Drop a pin, upload a photo. Your report feeds into the same AI model city councils monitor — often the first signal for a hotspot with no sensor nearby.</p>
+
+  <div class="report-layout" style="margin-top:36px;">
+    <form class="card" id="report-form" novalidate>
+      <div class="field">
+        <label>📍 Location</label>
+        <p style="font-size:12px; margin-bottom:8px;" class="text-dim">Click on the map to drop a pin, or enter manually.</p>
+        <div id="report-picker-map" style="height:240px; border-radius:var(--radius-sm); border:1px solid var(--border); margin-bottom:12px;"></div>
+        <input type="text" id="loc" placeholder="City, junction, or landmark…" required>
+        <div class="hint">
+          <button type="button" class="btn btn-sm btn-ghost" id="use-location" style="padding:4px 0; border:none; color:var(--accent-2);">📍 Auto-detect GPS</button>
+          <span id="geo-status" style="font-family:var(--f-mono); font-size:10px;"></span>
+        </div>
+      </div>
+      <div class="field">
+        <label>What are you seeing?</label>
+        <div class="chip-group" id="type-chips">
+          <button type="button" class="chip active" data-val="smoke">Smoke</button>
+          <button type="button" class="chip" data-val="dust">Dust cloud</button>
+          <button type="button" class="chip" data-val="burning">Open burning</button>
+          <button type="button" class="chip" data-val="industrial">Industrial</button>
+          <button type="button" class="chip" data-val="haze">Smog/Haze</button>
+        </div>
+      </div>
+      <div class="field">
+        <label>Severity</label>
+        <div class="chip-group" id="severity-chips">
+          <button type="button" class="chip" data-val="mild">Mild</button>
+          <button type="button" class="chip active" data-val="noticeable">Noticeable</button>
+          <button type="button" class="chip" data-val="severe">Severe</button>
+        </div>
+      </div>
+      <div class="field">
+        <label>📷 Photo evidence</label>
+        <div class="dropzone" id="dropzone" tabindex="0" role="button">
+          <svg class="dz-ico" viewBox="0 0 24 24" fill="none"><path d="M4 17V6a2 2 0 0 1 2-2h5l2 2h5a2 2 0 0 1 2 2v9a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2Z" stroke="currentColor" stroke-width="1.5"/><circle cx="12" cy="13" r="3" stroke="currentColor" stroke-width="1.5"/></svg>
+          <div style="font-size:13.5px;">Drop photo here or click to browse</div>
+          <div class="hint">JPG/PNG · stays on your device</div>
+        </div>
+        <input type="file" id="photo" accept="image/*" style="display:none">
+        <div class="preview-strip" id="preview-strip"></div>
+      </div>
+      <div class="field">
+        <label>Notes (optional)</label>
+        <textarea id="notes" placeholder="e.g. Started around 7am, burning plastics, going for two days…"></textarea>
+      </div>
+      <div class="field">
+        <label>Email for updates (optional)</label>
+        <input type="email" id="email" placeholder="you@example.com">
+      </div>
+      <button type="submit" class="btn btn-primary" style="width:100%; justify-content:center; padding:14px;">Submit Report →</button>
+      <div class="hint center" style="margin-top:8px;">Reports feed directly into the live dashboard and ops console.</div>
+    </form>
+
+    <div>
+      <div class="card" id="confirm-panel" style="display:none; border-color:var(--green); margin-bottom:16px;">
+        <div class="pill green" style="margin-bottom:12px;">✓ Report logged</div>
+        <h3 class="mt-0" style="font-size:17px;" id="confirm-title">Filed.</h3>
+        <p id="confirm-body" style="font-size:13px;"></p>
+        <a href="dashboard.html" class="btn btn-sm btn-primary">View on map →</a>
+      </div>
+      <div class="card severity-note" id="intro-note">
+        Reports are matched to the nearest regional grid cell. Multiple reports from the same block raise a hotspot flag even without a ground sensor.
+      </div>
+      <div class="card" style="margin-top:16px;">
+        <div class="panel-title"><h3>Your Reports</h3></div>
+        <div id="recent-reports"><p class="text-faint" style="font-size:13px;">None yet.</p></div>
+      </div>
+    </div>
+  </div>
+</main>
+
+<footer class="site">
+  <div class="wrap">
+    <span>PureZone India — real-time air quality intelligence.</span>
+    <span class="mono text-faint">v3.0</span>
+  </div>
+</footer>
+
+<script src="js/data.js"></script>
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
+<script src="js/nav.js"></script>
+<script src="js/report.js"></script>
+</body>
+</html>

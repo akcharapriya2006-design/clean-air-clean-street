@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>PureZone India — Real-Time National Air Quality Intelligence</title>
+<meta name="description" content="Live air pollution monitoring across India — 30 cities, real-time data, satellite overlays, and citizen hotspot reporting.">
+<link rel="stylesheet" href="css/style.css">
+<link rel="stylesheet" href="css/pages.css">
+</head>
+<body>
+
+  <div id="root"></div>
+    <script type="module" src="/src/main.tsx"></script>
+<header class="site">
+  <nav class="wrap nav">
+    <a href="index.html" class="brand">
+      <div class="brand-icon">🌀</div>
+      PureZone
+    </a>
+    <ul class="navlinks">
+      <li><a href="index.html">Overview</a></li>
+      <li><a href="dashboard.html">Live Map</a></li>
+      <li><a href="report.html">Report</a></li>
+      <li><a href="ops.html">Ops Console</a></li>
+    </ul>
+    <div class="nav-actions">
+      <a href="dashboard.html" class="btn btn-primary btn-sm">Open Live Map →</a>
+      <button class="navtoggle" aria-label="Toggle menu">☰</button>
+    </div>
+  </nav>
+</header>
+
+<main>
+  <section class="hero wrap">
+    <div>
+      <div class="eyebrow" id="live-indicator">● Live API Connected</div>
+      <h1>India's air quality, block by block.</h1>
+      <p class="lede">Standard city monitors average away the garbage fire two streets over, the foundry running nights, the junction trapping exhaust every evening. PureZone fuses ground sensors, satellite feeds, and citizen reports into one real-time map.</p>
+      <div class="hero-cta">
+        <a href="dashboard.html" class="btn btn-primary">Explore National Map →</a>
+        <a href="report.html" class="btn">Report Pollution</a>
+      </div>
+      <div class="hero-stats">
+        <div class="hero-stat reveal"><b id="hero-stations-count">30</b><span>Cities Tracked</span></div>
+        <div class="hero-stat reveal"><b id="hero-india-avg">—</b><span>India Avg AQI</span></div>
+        <div class="hero-stat reveal"><b id="hero-hotspots-count">—</b><span>Active Hotspots</span></div>
+      </div>
+    </div>
+    <div class="console-preview reveal">
+      <div class="cp-head">
+        <div class="dots"><span></span><span></span><span></span></div>
+        <div class="cp-label" id="hero-gauge-label">Worst city · Loading…</div>
+      </div>
+      <div id="hero-gauge"></div>
+    </div>
+  </section>
+
+  <section class="wrap" style="border-top:1px solid var(--border);">
+    <div class="eyebrow">How it works</div>
+    <h2 style="max-width:22ch; font-size: clamp(28px, 4vw, 42px);">Three feeds in. One map out.</h2>
+    <div class="pipeline">
+      <div class="pipe-step reveal">
+        <div class="pipe-num">01 / CAPTURE</div>
+        <h4>Multi-source ingestion</h4>
+        <p>Ground stations stream PM2.5. Citizens upload geotagged photos. Satellites measure aerosol optical depth across regions.</p>
+      </div>
+      <div class="pipe-step reveal">
+        <div class="pipe-num">02 / FUSE</div>
+        <h4>Spatial calibration</h4>
+        <p>All inputs align to a single geo-grid. Photo reports and sensor readings reinforce or contradict each other automatically.</p>
+      </div>
+      <div class="pipe-step reveal">
+        <div class="pipe-num">03 / PROJECT</div>
+        <h4>24h prediction</h4>
+        <p>Trend models project each cell 24 hours forward, factoring traffic cycles, land use, and recent volatility.</p>
+      </div>
+      <div class="pipe-step reveal">
+        <div class="pipe-num">04 / DISPATCH</div>
+        <h4>Automated response</h4>
+        <p>Critical zones auto-alert municipal crews. Mist cannons, cleanup teams, or inspections routed to exact streets.</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="wrap" style="border-top:1px solid var(--border);">
+    <div class="eyebrow">Capabilities</div>
+    <h2 style="max-width:24ch; font-size: clamp(28px, 4vw, 42px);">Built for the blind spots.</h2>
+    <div class="grid feature-grid">
+      <div class="panel feature reveal">
+        <svg class="ico" viewBox="0 0 24 24" fill="none"><path d="M4 8h3l2-3h6l2 3h3v11H4z" stroke="currentColor" stroke-width="1.6"/><circle cx="12" cy="13.5" r="3.4" stroke="currentColor" stroke-width="1.6"/></svg>
+        <h4>Citizen reports</h4>
+        <p>Anyone can flag smoke, dust, or burning in under a minute — geotagged, timestamped, dropped on the grid.</p>
+      </div>
+      <div class="panel feature reveal">
+        <svg class="ico" viewBox="0 0 24 24" fill="none"><path d="M3 12h4l2-6 4 12 2-6h6" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        <h4>Open-Meteo live feed</h4>
+        <p>Integrated with open atmospheric models. Real-time PM2.5, PM10, and US AQI across all Indian states.</p>
+      </div>
+      <div class="panel feature reveal">
+        <svg class="ico" viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="8.5" stroke="currentColor" stroke-width="1.6"/><path d="M12 3.5v3M12 17.5v3M3.5 12h3M17.5 12h3" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg>
+        <h4>WAQI tile overlay</h4>
+        <p>Global air quality tile layer renders continuous heat contours across the full geography of India.</p>
+      </div>
+      <div class="panel feature reveal">
+        <svg class="ico" viewBox="0 0 24 24" fill="none"><path d="M4 20V10M10 20V4M16 20v-7M22 20V8" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>
+        <h4>Hotspot detection</h4>
+        <p>Flags areas with satellite thermal spikes + high citizen reports, identifying zones with no physical sensors.</p>
+      </div>
+      <div class="panel feature reveal">
+        <svg class="ico" viewBox="0 0 24 24" fill="none"><path d="M3 17l4-5 4 3 4-7 6 9" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        <h4>24h spike forecasting</h4>
+        <p>Rolling forecasts per city — crews can be positioned before the AQI actually crosses into unhealthy.</p>
+      </div>
+      <div class="panel feature reveal">
+        <svg class="ico" viewBox="0 0 24 24" fill="none"><path d="M12 3l8 4v5c0 5-3.5 8-8 9-4.5-1-8-4-8-9V7z" stroke="currentColor" stroke-width="1.6"/></svg>
+        <h4>Dispatch console</h4>
+        <p>Every alert becomes a ticket — acknowledge, assign mist cannon or cleanup crew, track to resolution.</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="wrap">
+    <div class="panel reveal" style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:24px; padding:48px; background: linear-gradient(135deg, rgba(99,102,241,0.06), rgba(6,182,212,0.04)); border-color: rgba(99,102,241,0.15);">
+      <div>
+        <h3 class="mt-0" style="font-size:24px;">See today's hotspots across India.</h3>
+        <p style="margin-bottom:0; max-width:50ch;">No install, no login. The live map pulls real-time readings from Open-Meteo for 30 cities.</p>
+      </div>
+      <div style="display:flex; gap:14px; flex-wrap:wrap;">
+        <a href="dashboard.html" class="btn btn-primary">Launch Live Map →</a>
+        <a href="ops.html" class="btn">Ops Console</a>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer class="site">
+  <div class="wrap">
+    <span>PureZone India — real-time air quality intelligence. Open-Meteo + WAQI.</span>
+    <span class="mono text-faint">v3.0</span>
+  </div>
+</footer>
+
+<script src="js/data.js"></script>
+<script src="js/gauge.js"></script>
+<script src="js/nav.js"></script>
+<script>
+  document.addEventListener('DOMContentLoaded', async () => {
+    const ind = document.getElementById('live-indicator');
+    const ok = await AeroData.loadLiveData();
+    ind.textContent = ok ? '● Live API Connected' : '● Simulation Mode';
+    if (!ok) ind.style.color = 'var(--orange)';
+
+    const stats = AeroData.CELLS.map(c => ({ c, aqi: AeroData.currentReading(c) })).sort((a,b) => b.aqi - a.aqi);
+    const worst = stats[0];
+    const avg = Math.round(stats.reduce((s,x) => s + x.aqi, 0) / stats.length);
+    const hotspots = stats.filter(x => x.aqi >= 150).length;
+
+    document.getElementById('hero-stations-count').textContent = AeroData.CELLS.length;
+    document.getElementById('hero-india-avg').textContent = avg;
+    document.getElementById('hero-hotspots-count').textContent = hotspots;
+    document.getElementById('hero-gauge-label').textContent = `Worst city · ${worst.c.name}`;
+    renderGauge('hero-gauge', worst.aqi, { size: 240, location: `${worst.c.name}, ${worst.c.state}` });
+  });
+</script>
+</body>
+</html>
